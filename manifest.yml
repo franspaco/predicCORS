@@ -1,0 +1,8 @@
+---
+applications:
+  - name: semi42
+    buildpack: java_buildpack
+    path: target/predix-microservice-cf-spring-1.1.7.jar
+env:
+   SPRING_PROFILES_ACTIVE : cloud  
+   JAVA_DOCS_URL : http://predixdev.github.io/predix-microservice-cf-spring

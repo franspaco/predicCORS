@@ -1,0 +1,40 @@
+{
+  "name": "px-app-nav",
+  "version": "1.7.1",
+  "main": [
+    "px-app-nav.html"
+  ],
+  "ignore": [
+    ".*",
+    "npm-debug.log",
+    "Gruntfile.js",
+    "sass",
+    "bower_components",
+    "node_modules",
+    "test",
+    "OSS_Notice.pdf"
+  ],
+  "dependencies": {
+    "polymer": "^v1.5.0",
+    "px-theme": "https://github.com/PredixDev/px-theme.git#~0.8.0",
+    "web-animations-js": "^2.2.0",
+    "px-tooltip": "^0.7.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#~1.1.0",
+    "px-buttons-design": "https://github.com/predixDev/px-buttons-design.git#~0.4.0",
+    "px-list-bare-design": "https://github.com/predixDev/px-list-bare-design.git#~0.2.0",
+    "px-starter-kit-design": "https://github.com/predixDev/px-starter-kit-design.git#~0.4.0",
+    "px-login": "https://github.com/predixDev/px-login.git#~0.4.0"
+  },
+  "homepage": "https://github.com/PredixDev/px-app-nav",
+  "_release": "1.7.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.7.1",
+    "commit": "b8d547d6d1a662eea42e772365607645f8f0442c"
+  },
+  "_source": "https://github.com/PredixDev/px-app-nav.git",
+  "_target": "~v1.7.1",
+  "_originalSource": "https://github.com/PredixDev/px-app-nav.git"
+}

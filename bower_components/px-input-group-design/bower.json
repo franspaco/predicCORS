@@ -1,0 +1,35 @@
+{
+  "name": "px-input-group-design",
+  "version": "0.2.7",
+  "authors": [
+    "General Electric"
+  ],
+  "description": "Input group styles for Predix Experience",
+  "main": "_objects.input-group.scss",
+  "keywords": [
+    "px",
+    "sass",
+    "input",
+    "groups"
+  ],
+  "license": "Apache 2",
+  "homepage": "https://github.build.ge.com/PXd/px-input-group-design.git",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "px-buttons-design": "https://github.build.ge.com/PXd/px-buttons-design.git#~0.4.0",
+    "px-forms-design": "https://github.build.ge.com/PXd/px-forms-design.git#~0.3.0"
+  },
+  "devDependencies" : {
+    "px-code-design": "https://github.build.ge.com/PXd/px-code-design.git#~0.2.0",
+    "px-iconography-design": "https://github.build.ge.com/PXd/px-iconography-design.git#~0.2.0",
+    "px-list-bare-design": "https://github.build.ge.com/PXd/px-list-bare-design.git#~0.2.0",
+    "px-starter-kit-design": "https://github.build.ge.com/PXd/px-starter-kit-design.git#~0.4.0"
+  }
+}
