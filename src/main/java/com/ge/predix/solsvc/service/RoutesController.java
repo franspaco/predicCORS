@@ -34,8 +34,8 @@ public class RoutesController {
     }
 
     @SuppressWarnings("nls")
-    @RequestMapping(value = "/revenues/{route}/{step}", method = RequestMethod.GET)
+    @RequestMapping(value = "/flight/{route}/{step}", method = RequestMethod.GET)
     public String getEarnings(@PathVariable(value="route") int route, @PathVariable(value="step") int step){
-        return String.format(RR.getEarnings(route, step).toString());
+        return String.format(RR.getFlightData(route, step).toString());
     }
 }

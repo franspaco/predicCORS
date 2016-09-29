@@ -237,7 +237,7 @@ public class EngineReader {
         return out;
     }
 
-    public JSONObject getEnginePred(String serial, int min, int max){
+    public JSONObject getEnginePred(String serial, int min, int max, int safety){
         RoutesReader rr = new RoutesReader("DATA/routes.csv", "DATA/revenues.csv", "DATA/airports.csv");
         JSONObject engine = getSingleEngine(serial);
         JSONObject stats = getStats();
@@ -251,27 +251,50 @@ public class EngineReader {
         NormalDistribution nd = new NormalDistribution(mean, stdev);
 
         for(int i = min; i <= max; i++){
-            double x = engine.getDouble("time") + (double)i * stats.getDouble("avgmpc");
+            double x = engine.getDouble("time") + (double)(i)* stats.getDouble("avgmpc");
             double p = nd.cumulativeProbability(x);
-            JSONObject revenue = rr.getEarnings(engine.getInt("route"), i);
+
+            double xSfty = engine.getDouble("time") + (double)(i + safety)* stats.getDouble("avgmpc");
+            double pSfty = nd.cumulativeProbability(xSfty);
+
+            JSONObject revenue = rr.getFlightData(engine.getInt("route"), i);
             double g = revenue.getDouble("revenue");
             double cost = revenue.getDouble("cost");
             double Pmax = g/(g+c);
 
             //double index = 1 - 1/((cost/621500) + (p/Pmax));
-            double index = (1 - Pmax/p)*(621500/cost);
 
+            //REPAIR COST INDEX
+            double minCost = 500000;
+            double costIndex = 1-((cost-minCost)/minCost);
+            //double costIndex = Math.exp(0.000001 * (minCost - cost));
+
+            //FAILURE RISK INDEX
+            double riskIndex = pSfty/Pmax;
+            if (riskIndex > 1){
+                riskIndex = 1;
+            }
+
+            //PROXIMITY INDEX ??
+            double proximityIndex = 1;
+
+            //FINAL INDEX
+            double index = costIndex * riskIndex * proximityIndex;
+
+            /*
             index *= 100;
             p *= 100;
+            Pmax *= 100;
+            */
 
 
-            if(Math.abs(index) > 0.0) {
+            if(Math.abs(index) > 0.0 && p < 1.0) {
                 JSONObject cycle = new JSONObject();
                 cycle.put("prob", p);
                 cycle.put("pmax", Pmax);
-                //cycle.put("index", index);
+                cycle.put("index", index);
 
-                System.out.println(i + ", " + Pmax + ", " + x + ", " + p + ", " + index);
+                System.out.println(i + ", " + Pmax + ", " + p + ", " + index);
                 cycles.put(String.valueOf(i), cycle);
             }
         }

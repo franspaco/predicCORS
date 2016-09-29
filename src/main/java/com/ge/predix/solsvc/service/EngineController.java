@@ -60,8 +60,9 @@ public class EngineController {
         return String.format(ER.getSingleEngine(id).toString());
     }
 
-    @RequestMapping(value = "/engines/{engineID}/{fmin}/{fmax}", method = RequestMethod.GET)
-    public String getEnginePredix(@PathVariable(value="engineID") String id, @PathVariable(value="fmin") int fmin, @PathVariable(value="fmax") int fmax) {
-        return String.format(ER.getEnginePred(id, fmin, fmax).toString());
+    @RequestMapping(value = "/engines/{engineID}/{safety}/{fmin}/{fmax}", method = RequestMethod.GET)
+    public String getEnginePredix(@PathVariable(value="engineID") String id, @PathVariable(value="fmin") int fmin,
+                                  @PathVariable(value="fmax") int fmax, @PathVariable(value="safety") int safety) {
+        return String.format(ER.getEnginePred(id, fmin, fmax, safety).toString());
     }
 }

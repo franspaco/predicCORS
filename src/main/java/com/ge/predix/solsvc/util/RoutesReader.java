@@ -22,7 +22,7 @@ public class RoutesReader {
         this.airportsFile = airportsFile;
     }
 
-    public JSONObject getEarnings(int route, int step){
+    public JSONObject getFlightData(int route, int step){
         JSONObject routes = getRoutes();
         JSONObject revenues = getRevenues();
 
@@ -37,6 +37,8 @@ public class RoutesReader {
 
         double revenue = revenues.getJSONObject(lastIATA).getDouble(nextIATA);
         JSONObject out = new JSONObject();
+        out.put("origin", lastIATA);
+        out.put("dest", nextIATA);
         out.put("revenue", revenue);
         out.put("cost", getAirpots().getJSONObject(lastIATA).getDouble("cost"));
         return out;
