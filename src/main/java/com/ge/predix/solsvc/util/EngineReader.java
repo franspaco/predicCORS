@@ -9,6 +9,8 @@ import org.apache.commons.math3.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -257,9 +259,9 @@ public class EngineReader {
             double xSfty = engine.getDouble("time") + (double)(i + safety)* stats.getDouble("avgmpc");
             double pSfty = nd.cumulativeProbability(xSfty);
 
-            JSONObject revenue = rr.getFlightData(engine.getInt("route"), i);
-            double g = revenue.getDouble("revenue");
-            double cost = revenue.getDouble("cost");
+            JSONObject flight = rr.getFlightData(engine.getInt("route"), i);
+            double g = flight.getDouble("revenue");
+            double cost = flight.getDouble("cost");
             double Pmax = g/(g+c);
 
             //double index = 1 - 1/((cost/621500) + (p/Pmax));
@@ -282,23 +284,49 @@ public class EngineReader {
             double index = costIndex * riskIndex * proximityIndex;
 
             /*
-            index *= 100;
-            p *= 100;
-            Pmax *= 100;
+            String indexS = String.format("%.2f%", index *100.0);
+            String pS = String.format("%.2f%", p *100.0);
+            String PmaxS = String.format("%.2f%", Pmax *100.0);
             */
 
+            p     *= 100.0;
+            Pmax  *= 100.0;
+            index *= 100.0;
+            /*
+            p = round(p, 2);
+            Pmax = round(Pmax, 2);
+            index = round(index, 2);
+            */
+            int ip = (int)p;
+            int iPmax  = (int)Pmax;
+            int iindex = (int)index;
 
-            if(Math.abs(index) > 0.0 && p < 1.0) {
+
+            if(Math.abs(index) > 0.0 && p < 95) {
                 JSONObject cycle = new JSONObject();
-                cycle.put("prob", p);
-                cycle.put("pmax", Pmax);
-                cycle.put("index", index);
+                cycle.put("cycle", String.valueOf(i));
+                cycle.put("prob", ip);
+                cycle.put("pmax", iPmax);
+                cycle.put("index", iindex);
+                cycle.put("origin", flight.getString("origin"));
+                cycle.put("dest", flight.getString("dest"));
+                cycle.put("cost", cost);
 
-                System.out.println(i + ", " + Pmax + ", " + p + ", " + index);
-                cycles.put(String.valueOf(i), cycle);
+                //System.out.println(i + ", " + Pmax + ", " + p + ", " + index);
+
+                cycles.accumulate("cycles", cycle);
+
             }
         }
 
         return cycles;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

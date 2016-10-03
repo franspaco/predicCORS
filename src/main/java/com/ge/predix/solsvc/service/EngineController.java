@@ -63,6 +63,7 @@ public class EngineController {
     @RequestMapping(value = "/engines/{engineID}/{safety}/{fmin}/{fmax}", method = RequestMethod.GET)
     public String getEnginePredix(@PathVariable(value="engineID") String id, @PathVariable(value="fmin") int fmin,
                                   @PathVariable(value="fmax") int fmax, @PathVariable(value="safety") int safety) {
-        return String.format(ER.getEnginePred(id, fmin, fmax, safety).toString());
+        //return String.format(ER.getEnginePred(id, fmin, fmax, safety).toString());
+        return ER.getEnginePred(id, fmin, fmax, safety).toString();
     }
 }
